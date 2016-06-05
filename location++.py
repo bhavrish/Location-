@@ -31,4 +31,4 @@ def getN( loc , zipCode , name , address ) :
         if n[ zipCode ] == zipcode :
             print "The " + n[ name ] + " is located at " + n[ address ] + "."
 
-getN( "Lower East Side" , 7 , 1 , 4 )
+# getN( "Lower East Side" , 7 , 1 , 4 ) prints 3 diff theaters 
