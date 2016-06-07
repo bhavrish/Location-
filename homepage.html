@@ -62,22 +62,23 @@
 <h1>What is the name of the town where you are currently?</h1>
 <center>
 <form method="GET" action="textForm.py">
-        Town Name: <input type = "text" name = "input" size = "20">
+        Town Name: <input type = "text" name = "input" size = "20" required>
         </br>
         </br>
         What do you want to find in your current location?:
         </br>
-        <input type = "checkbox" name = "Transportation"> <b>Transportation</b>
+        <input type="radio" name="function" value="Transportation" required > <b>Transportation</b>
         </br>
-        <input type = "checkbox" name = "Entertainment"> <b>Entertainment</b>
+        <input type="radio" name="function" value="Entertainment"> <b>Entertainment</b>
         </br>
-        <input type = "checkbox" name = "Educational Opportunities"><b>Educational Opportunities</b>
+        <input type="radio" name="function" value="Educational Opportunities"><b>Educational Opportunities</b>
         </br>
-        <input type = "checkbox" name = "Food"> <b>Food</b>
+        <input type="radio" name="function" value="Food"> <b>Food</b>
         <br>
         <br>
         <input type= "submit" value = "Submit">
 </form>
+
 </center>
 </body>
 </html>
