@@ -87,7 +87,5 @@ def checkEnoughData():
 print "<!DOCTYPE html><html>\n"
 
 params=parseQuery()
-print params , "<br>"
-#checkEnoughData()
 chooseFunction()
 print "</html>"
