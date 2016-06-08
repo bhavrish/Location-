@@ -33,10 +33,15 @@ def listify( L ) :
 aL = listify( aRL )
 bL = listify( bRL )
 
-def loc2zip( w ) :
-    for n in bL :
-        if n[ 1 ] == w :
-            return n[ 0 ]
+def theatre( loc , zipCode , name , address ) :
+    zipcode = loc2zip( loc )
+    found = False
+    for n in aL :
+        if n[ zipCode ] == zipcode :
+            print n[ name ] + " is located at " + n[ address ] + "."
+            found = True
+    if found == False:
+        print("Sorry, there are no theatres nearby your current location.")
             
 """
 Theater: zip codes-col7, names-col1, addresses-col4
