@@ -73,7 +73,7 @@ def hurricane( loc ) :
     found = False
     for n in dL :
         if n[ 5 ] == zipcode :
-            print n[ 1 ] + " is a hurricane center in your area. It is located at$
+            print n[ 1 ] + " is a hurricane center in your area. It is located at " + n[ 2 ] + "."
             found = True
     if found == False:
         print "Sorry, there are no hurricane centers near your current location."
