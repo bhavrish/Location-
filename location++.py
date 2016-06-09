@@ -13,6 +13,14 @@ b = open( "zipcodeconverter.csv" , "r" )
 bRL = b.readlines()
 b.close()
 
+c = open( "subway.csv" , "r" )
+cRL = c.readlines()
+c.close()
+
+d = open( "OEM_HurricaneEvacuationCenters_2015.csv" , "r" )
+dRL = d.readlines()
+d.close()
+
 def parseQuery():
     q=cgi.FieldStorage()
     d={}
@@ -29,40 +37,55 @@ def listify( L ) :
         L[ p ] = L[ p ].strip()
         L[ p ] = L[ p ].split( "," )
     return L
-
+	
 aL = listify( aRL )
 bL = listify( bRL )
+cL = listify( cRL )
+dL = listify( dRL )
 
-def theatre( loc , zipCode , name , address ) :
+def loc2zip( w ) :
+    for n in bL :
+        if n[ 1 ] == w :
+            return n[ 0 ]
+
+def theatre( loc ) :
     zipcode = loc2zip( loc )
     found = False
     for n in aL :
-        if n[ zipCode ] == zipcode :
-            print n[ name ] + " is located at " + n[ address ] + "."
+        if n[ 7 ] == zipcode :
+            print n[ 1 ] + " is located at " + n[ 4 ] + ". <br>"
             found = True
     if found == False:
         print("Sorry, there are no theatres nearby your current location.")
-            
-"""
-Theater: zip codes-col7, names-col1, addresses-col4
-"""
 
-def getN( loc , zipCode , name , address ) :
+def subway( loc ) :
     zipcode = loc2zip( loc )
-    for n in aL :
-        if n[ zipCode ] == zipcode :
-            print "The " + n[ name ] + " is located at " + n[ address ] + "."
+    found = False
+    for n in cL :
+        if n[ 8 ] == zipcode :
+            print "The " + n[ 3 ] + " station is in your zip code. The " + n[ 4 ]$
+            found = True
+    if found == False:
+        print "Sorry, there are no subway stations near your current location."
 
-# getN( "Lower East Side" , 7 , 1 , 4 ) prints 3 diff theaters
-# for Lower East Side entertainment
-    # params returns -> {'function': 'Entertainment', 'input': 'Lower East Side'}
+def hurricane( loc ) :
+    zipcode = loc2zip( loc )
+    found = False
+    for n in dL :
+        if n[ 5 ] == zipcode :
+            print n[ 1 ] + " is a hurricane center in your area. It is located at$
+            found = True
+    if found == False:
+        print "Sorry, there are no hurricane centers near your current location."
 
 #calls and returns the appropriate function based on given parameters
 def chooseFunction():
     if params['function']=='Transportation':
-        print("Under Construction")
+        print subway( params[ "input" ] )
     elif params['function']=='Entertainment':
-        return getN(( params[ "input" ] ) , 7 , 1 , 4 )
+        return theatre( params[ "input" ] )
+    elif params[ 'function' ] == 'Safety Zones' :
+        return hurricane( params[ "input" ] )
     elif params['function']=='Educational Opportunities':
         print("Under Construction")
     elif params['function']=='Food':
@@ -74,18 +97,24 @@ def printInfo():
     print '<h1>Function: ' + params['function'].capitalize() + '</h1>'
     print 'Input: ' + params['input'] + '<br>'
 
-"""
-def checkEnoughData():
-    if 'function' not in params:
-        print '<h1>Please select a function.</h1>'
-    if 'input' not in params:
-        print 'Please give an input.'
-    if ('function' in params) and ('input' in params):
-        printInfo()
-        print 'Output: '+formatify(chooseFunction())
-"""
-print "<!DOCTYPE html><html>\n"
+HTML_HEADER = 'Content-type: text/html\n\n'
+Top_HTML= '''
+<html>
+<head>
+<title> Key to Success </title>
+</head>
+<body style="background: MediumSpringGreen;">
+<center>
+<p><font size="5" color="gray">
+'''
+Bottom_HTML='''
+</p>
+</center>
+</body>
+</html>
+'''
 
 params=parseQuery()
 chooseFunction()
-print "</html>"
+print HTML_HEADER + Top_HTML + "</p>" + str(chooseFunction()) + Bottom_HTML
+
