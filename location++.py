@@ -56,14 +56,14 @@ def theatre( loc ) :
             print n[ 1 ] + " is located at " + n[ 4 ] + ". <br>"
             found = True
     if found == False:
-        print("Sorry, there are no theatres nearby your current location.")
+        print("Sorry, there are no theatres near your current location.")
 
 def subway( loc ) :
     zipcode = loc2zip( loc )
     found = False
     for n in cL :
         if n[ 8 ] == zipcode :
-            print "The " + n[ 3 ] + " station is in your zip code. The " + n[ 4 ]$
+            print "The " + n[ 3 ] + " station is in your zip code. The " + n[ 4 ] + " lines stop in this station. <br>"
             found = True
     if found == False:
         print "Sorry, there are no subway stations near your current location."
