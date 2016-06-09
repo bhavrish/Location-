@@ -21,6 +21,14 @@ d = open( "OEM_HurricaneEvacuationCenters_2015.csv" , "r" )
 dRL = d.readlines()
 d.close()
 
+e = open( "MUSEUM.csv" , "r" )
+eRL = e.readlines()
+e.close()
+"""
+f = open( "ART_GALLERY.csv" , "r" )
+fRL = f.readlines()
+f.close()
+"""
 def parseQuery():
     q=cgi.FieldStorage()
     d={}
@@ -30,18 +38,20 @@ def parseQuery():
 ##        print "<br>"
         d[key]=q[key].value
     return d
-
+    
 def listify( L ) :
     for i in L :
         p = L.index( i )
         L[ p ] = L[ p ].strip()
         L[ p ] = L[ p ].split( "," )
     return L
-	
+
 aL = listify( aRL )
 bL = listify( bRL )
 cL = listify( cRL )
 dL = listify( dRL )
+eL = listify( eRL )
+# fL = listify( fRL )
 
 def loc2zip( w ) :
     for n in bL :
@@ -56,7 +66,7 @@ def theatre( loc ) :
             print n[ 1 ] + " is located at " + n[ 4 ] + ". <br>"
             found = True
     if found == False:
-        print("Sorry, there are no theatres near your current location.")
+        print("Sorry, there are no theatres nearby your current location.")
 
 def subway( loc ) :
     zipcode = loc2zip( loc )
@@ -77,19 +87,50 @@ def hurricane( loc ) :
             found = True
     if found == False:
         print "Sorry, there are no hurricane centers near your current location."
+def library( loc ) :
+    zipcode = loc2zip( loc )
+    found = False
+    for n in eL :
+        if n[ 5 ] == zipcode :
+            print n[ 1 ] + " is located at " + n[ 3 ] + ". <br>"
+            found = True
+    if found == False:
+        print( "Sorry, there are no libraries near your current location.")
+
+def museum( loc ) :
+    zipcode = loc2zip( loc )
+    found = False
+    for n in aL :
+        if n[ 8 ] == zipcode :
+            print n[ 2 ] + " is located at " + n[ 5 ] + ". <br>"
+            found = True
+    if found == False:
+        print("Sorry, there are no museums near your current location.")
+
+def artgallery( loc ) :
+    zipcode = loc2zip( loc )
+    found = False
+    for n in aL :
+        if n[ 8 ] == zipcode :
+            print n[ 2 ] + " is located at " + n[ 5 ] + ". <br>"
+            found = True
+    if found == False:
+        print("Sorry, there are no art galleries near your current location.")
 
 #calls and returns the appropriate function based on given parameters
 def chooseFunction():
-    if params['function']=='Transportation':
-        print subway( params[ "input" ] )
-    elif params['function']=='Entertainment':
+    if params['function']=='Subway Stations':
+        return subway( params[ "input" ] )
+    elif params['function']=='Theatres':
         return theatre( params[ "input" ] )
     elif params[ 'function' ] == 'Safety Zones' :
         return hurricane( params[ "input" ] )
-    elif params['function']=='Educational Opportunities':
-        print("Under Construction")
-    elif params['function']=='Food':
-        print("Under Construction")
+    elif params['function']=='Libraries':
+        return library( params[ "input" ] )
+    elif params['function']=='Art':
+        return "Under construction"  # artgallery( params[ "input" ] )
+    elif params['function']=='Museums':
+        return museum( params[ "input" ] )
     else: #just in case.
         return 'Unknown function.'
 
@@ -97,7 +138,6 @@ def printInfo():
     print '<h1>Function: ' + params['function'].capitalize() + '</h1>'
     print 'Input: ' + params['input'] + '<br>'
 
-HTML_HEADER = 'Content-type: text/html\n\n'
 Top_HTML= '''
 <html>
 <head>
@@ -115,6 +155,6 @@ Bottom_HTML='''
 '''
 
 params=parseQuery()
-chooseFunction()
-print HTML_HEADER + Top_HTML + "</p>" + str(chooseFunction()) + Bottom_HTML
+# chooseFunction()
+print Top_HTML + "</p>" + str(chooseFunction()) + Bottom_HTML
 
